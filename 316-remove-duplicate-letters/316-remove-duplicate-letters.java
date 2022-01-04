@@ -8,6 +8,10 @@ class Solution {
            charCount[c-'a']+=1;
        }
         
+        
+        // for(int i=0;i<s.length()-1;i++){
+        //     charCount[s.charAt(i)-'a']+=1;
+        // }
         StringBuilder sb = new StringBuilder();
         
         for(int i=0,j=0;i<s.length();i++){
