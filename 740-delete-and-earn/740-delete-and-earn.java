@@ -1,18 +1,21 @@
 class Solution {
-     public int deleteAndEarn(int[] nums) {
-        int inc=0;
-        int exe=0;
-        
-        int[] arr= new int[10001];
-        for(int count: nums)arr[count]++;
-        
-        for(int i=0;i<=10000;i++){
-            int ni=exe+arr[i]*i;
-            int ne=Math.max(inc,exe);
-            
-            inc=ni;
-            exe=ne;
+    int[] memo;
+    public int deleteAndEarn(int[] nums) {
+        int max =0;
+        for(int i:nums){
+            max = Math.max(max,i);
         }
-        return Math.max(inc,exe);
+        int[] freq = new int[max+1];
+        for(int x:nums){
+            freq[x]=freq[x]+1;
+        }
+        memo = new int[max+1];
+        Arrays.fill(memo,-1);
+        return solve(freq,0);
+    }
+    public int solve(int[] freq,int n){
+        if(n>=freq.length)return 0;
+        if(memo[n]!=-1) return memo[n];
+        return memo[n]= Math.max(n*freq[n]+solve(freq,n+2),solve(freq,n+1));
     }
 }
