@@ -1,24 +1,21 @@
 class Solution {
     public int maxScore(int[] cardPoints, int k) {
+        int sum=0;
+        for(int i:cardPoints)
+            sum+=i;  // total sum
+        int ans=0,window=0,n=cardPoints.length;
+        if(n==k)
+            return sum;  // n=k
         
-        int sum_front =0;
-        int sum_back=0;
-        int back = cardPoints.length-1;
-        int front =0;
+        for(int i=0;i<n-k-1;++i) 
+            window += cardPoints[i]; // sum of sliding window of n-k-1 starting from 0
         
-        for(int i=0;i<k;i++){
-            sum_front +=cardPoints[front++];
+        for(int i=n-k-1;i<n;++i) { // maximizing sum by shifiting window 
+            window += cardPoints[i];
+            ans = Math.max(ans,sum-window);
+            window -= cardPoints[i-(n-k-1)];
         }
         
-        int max = sum_front;
-        
-        for(int i=0;i<k;i++){
-            sum_back+=cardPoints[back--];
-            sum_front -=cardPoints[--front];
-            
-            max = Math.max(max,sum_back+sum_front);
-        }
-        
-        return max;
+        return ans;
     }
 }
