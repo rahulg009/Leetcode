@@ -1,26 +1,26 @@
 class Solution {
     public int minDeletions(String s) {
-        Map<Character, Integer> freqMap = new HashMap<>();
-        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());
-        int answer = 0;
-        for(char letter: s.toCharArray()) {
-            freqMap.put(letter, freqMap.getOrDefault(letter, 0) + 1);
+        Map<Character,Integer> hmap = new HashMap<>();
+        Set<Integer> hset = new HashSet();
+        int count =0;
+        for(int i=0;i<s.length();i++){
+            hmap.put(s.charAt(i),hmap.getOrDefault(s.charAt(i),0)+1);
         }
-        for(Map.Entry<Character, Integer> entry: freqMap.entrySet()) {
-            maxHeap.offer(entry.getValue());
-        }
-        while(!maxHeap.isEmpty()) {
-            int frequent = maxHeap.poll();
-            if(maxHeap.isEmpty()) {
-                return answer;
-            }
-            if(frequent == maxHeap.peek()) {
-                if(frequent > 1) {
-                    maxHeap.offer(frequent - 1);
+        
+        for(char it:hmap.keySet()){
+            int freq = hmap.get(it);
+            if(!hset.contains(freq)){
+                hset.add(freq);
+            }else{
+                while(freq>0 && hset.contains(freq)){
+                    freq--;
+                    count++;
                 }
-                answer++;
+                if(freq>0)hset.add(freq);
             }
         }
-        return answer;
+        
+        return count;
+        
     }
 }
